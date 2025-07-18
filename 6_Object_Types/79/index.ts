@@ -6,7 +6,7 @@
 
 
 
-interface Character {
+interface Characterr {
     name: string;
     age: number;
 }
@@ -16,7 +16,7 @@ interface Gun {
     caliber: number;
 }
 
-type HumanWithGun = Character & Gun;
+type HumanWithGun = Characterr & Gun;
 
 
 const arnald: HumanWithGun = {

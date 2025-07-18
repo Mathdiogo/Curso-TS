@@ -1,32 +1,26 @@
-// 3 - Interfaces com Generics
+// 4 - Type Parameters
 
-// Interfaces com Generics são uma maneira de definir contratos para objetos que podem trabalhar com diferentes tipos de dados.
-// Elas permitem que você crie uma interface que pode ser usada com diferentes tipos, garantindo que os objetos que implementam essa interface atendam a certos requisitos.
+// Type Parameters são uma maneira de criar funções ou classes que podem trabalhar com diferentes tipos de dados.
+// Eles permitem que você defina um tipo de dado genérico que pode ser substituído por qualquer outro tipo quando a função ou classe é usada.
 
-interface MyObject<T, U, C> {
-    name: string;
-    wheels: T;
-    engine: U;
-    color?: C; // Propriedade opcional
+
+
+// Type parameters é um recurso de Generics utilizado para dizer que algum parametro de uma função é a chave de um objeto. 
+//Que pode ser utilizado para acessar o valor de uma propriedade de um objeto.
+// Dessa maneira conseguimos criar uma ligação entre o tipo do objeto e o tipo da chave, garantindo que a chave seja válida para o objeto.
+
+
+function getSomeKey<T, K extends keyof T>(obj: T, key: K) {
+    // Aqui, T é um tipo genérico que representa o objeto
+    // K é um tipo genérico que deve ser uma chave de T
+    return `A chave ${String(key)} está presente no objeto e tem o valor de ${obj[key]}`; // Retorna o valor da propriedade especificada pela chave
 }
 
-type Carro = MyObject<number, number, string>;
-type Caneta = MyObject<boolean, boolean, string>;
 
-const Mycarro: Carro = {
-    name: "Fusca",
-    wheels: 4,
-    engine: 1.0,
-    color: "white"
-};
+const server = {
+    hd: '2TB',
+    ram: '32GB',
+}
 
-const Mycaneta: Caneta = {
-    name: "Caneta Azul",
-    wheels: false,
-    engine: false,
-    color: "blue"
-};
-
-
-console.log(Mycarro);
-console.log(Mycaneta);
+console.log(getSomeKey(server, 'hd')); // A chave hd está presente no objeto e tem o valor de 2TB
+console.log(getSomeKey(server, 'ram')); // A chave ram está presente no objeto e tem o valor de 32GB

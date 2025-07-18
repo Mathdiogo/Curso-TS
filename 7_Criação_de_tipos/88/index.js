@@ -1,4 +1,16 @@
 "use strict";
-// 4 - Type Parameters
-// Type Parameters são uma maneira de criar funções ou classes que podem trabalhar com diferentes tipos de dados.
-// Eles permitem que você defina um tipo de dado genérico que pode ser substituído por qualquer outro tipo quando a função ou classe é usada.
+// 3 - Interfaces com Generics
+const Mycarro = {
+    name: "Fusca",
+    wheels: 4,
+    engine: 1.0,
+    color: "white"
+};
+const Mycaneta = {
+    name: "Caneta Azul",
+    wheels: false,
+    engine: false,
+    color: "blue"
+};
+console.log(Mycarro);
+console.log(Mycaneta);
