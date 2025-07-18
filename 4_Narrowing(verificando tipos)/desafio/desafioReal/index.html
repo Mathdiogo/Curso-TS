@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio 3 - Review de Usuário</title>
+    <style>
+        /* (Seus estilos CSS aqui - sem mudanças) */
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
+        .tab-container {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab-button {
+            flex-grow: 1;
+            padding: 15px 20px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            border: none;
+            outline: none;
+            transition: background-color 0.3s ease;
+            font-size: 1.1em;
+            color: #555;
+        }
+        .tab-button.active {
+            background-color: #e0e0e0;
+            border-bottom: 2px solid #007bff;
+            color: #007bff;
+        }
+        .tab-content {
+            padding: 20px;
+        }
+        .tab-pane {
+            display: none; /* Esconde todas as abas por padrão */
+        }
+        .tab-pane.active {
+            display: block; /* Mostra apenas a aba ativa */
+        }
+
+        /* Estilos para as estrelas */
+        .rating-stars {
+            font-size: 2.5em; /* Tamanho das estrelas */
+            color: #ccc; /* Cor das estrelas não selecionadas */
+            cursor: pointer;
+            user-select: none; /* Evita seleção de texto */
+        }
+        .rating-stars span {
+            display: inline-block; /* Permite espaçamento entre estrelas */
+            margin-right: 5px;
+            transition: color 0.2s ease;
+        }
+        .rating-stars span.selected {
+            color: #FFD700; /* Cor das estrelas selecionadas (dourado) */
+        }
+        .rating-stars span:hover {
+            color: #FFD700; /* Dourado ao passar o mouse */
+        }
+        .rating-stars span:hover ~ span {
+            color: #ccc; /* Estrelas após o hover voltam à cor padrão */
+        }
+
+        /* Estilo para o botão de enviar */
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos para a área de visualização */
+        #reviewsList {
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        .review-item {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        /* Estilo para o campo de nome */
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .input-group input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Garante que padding não aumente a largura */
+        }
+    </style>
+</head>
+<body>
+    <div class="tab-container">
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="showTab('rateTab', this)">Dar Nota</button>
+            <button class="tab-button" onclick="showTab('viewTab', this)">Visualizar Notas</button>
+        </div>
+
+        <div class="tab-content">
+            <div id="rateTab" class="tab-pane active">
+                <h2>Avalie o Produto/Serviço</h2>
+                <div class="input-group">
+                    <label for="userNameInput">Seu Nome:</label>
+                    <input type="text" id="userNameInput" placeholder="Digite seu nome">
+                </div>
+                <div class="rating-stars" id="starRating">
+                    <span data-value="1">★</span>
+                    <span data-value="2">★</span>
+                    <span data-value="3">★</span>
+                    <span data-value="4">★</span>
+                    <span data-value="5">★</span>
+                </div>
+                <p>Ou, não deixe uma nota: <input type="checkbox" id="noReviewCheckbox"></p>
+                <button onclick="submitReview()">Enviar Avaliação</button>
+                <p id="submissionMessage" style="margin-top: 10px;"></p>
+            </div>
+
+            <div id="viewTab" class="tab-pane">
+                <h2>Notas Recebidas</h2>
+                <div id="reviewsList">
+                    <p>Nenhuma nota enviada ainda.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+
+    <script>
+        let selectedRating = 0;
+
+        // Funções para controle das abas
+        function showTab(tabId, clickedButton) {
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            clickedButton.classList.add('active');
+
+            if (tabId === 'viewTab') {
+                updateReviewsList();
+            }
+        }
+
+        function updateStarDisplay(rating) {
+            document.querySelectorAll('#starRating span').forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('selected');
+                } else {
+                    star.classList.remove('selected');
+                }
+            });
+        }
+
+        // Função que será chamada ao enviar a avaliação
+        function submitReview() {
+            const userNameInput = document.getElementById('userNameInput');
+            const noReviewCheckbox = document.getElementById('noReviewCheckbox');
+            const submissionMessage = document.getElementById('submissionMessage');
+
+            const userName = userNameInput.value.trim(); // Pega o nome do usuário e remove espaços
+            if (!userName) {
+                submissionMessage.textContent = "Por favor, digite seu nome.";
+                submissionMessage.style.color = "red";
+                return;
+            }
+
+            const noReview = noReviewCheckbox.checked;
+            let reviewValue;
+
+            if (noReview) {
+                reviewValue = false;
+            } else if (selectedRating > 0) {
+                reviewValue = selectedRating;
+            } else {
+                submissionMessage.textContent = "Por favor, selecione uma nota ou marque 'Não deixar nota'.";
+                submissionMessage.style.color = "red";
+                return;
+            }
+
+            // ATENÇÃO AQUI: Agora processReview retorna um OBJETO (ReviewData)
+            const submittedReview = processReview(reviewValue, userName);
+
+            // Usamos as propriedades do objeto retornado para o feedback imediato
+            // As propriedades "nota" e "nome" do seu tipo Review foram renomeadas para "value" e "userName"
+            // no meu ReviewData, então ajuste aqui:
+            submissionMessage.textContent = `Avaliação de ${submittedReview.userName} enviada! ${submittedReview.message}`;
+            submissionMessage.style.color = "green";
+
+            // Resetar a interface após o envio
+            selectedRating = 0;
+            noReviewCheckbox.checked = false;
+            userNameInput.value = ''; // Limpa o campo do nome
+            updateStarDisplay(0);
+        }
+
+        // Função para atualizar a lista de reviews na aba "Visualizar Notas"
+        function updateReviewsList() {
+            const reviewsListDiv = document.getElementById('reviewsList');
+            reviewsListDiv.innerHTML = '';
+
+            // Chama getStoredReviews para pegar TODOS os reviews
+            const storedReviews = getStoredReviews();
+
+            if (Object.keys(storedReviews).length === 0) {
+                reviewsListDiv.innerHTML = '<p>Nenhuma nota enviada ainda.</p>';
+                return;
+            }
+
+            // Itera sobre o dicionário/objeto de reviews para exibir cada um
+            // Object.values() é uma forma mais direta de obter os valores de um objeto
+            for (const reviewData of Object.values(storedReviews)) { // reviewData é do tipo ReviewData!
+                const reviewItem = document.createElement('div');
+                reviewItem.classList.add('review-item');
+                let displayValue;
+                if (reviewData.value === false) {
+                    displayValue = "Nenhuma nota deixada";
+                } else {
+                    // Aqui usamos reviewData.value, que pode ser number
+                    displayValue = `Nota: ${reviewData.value} estrela(s) ${"★".repeat(reviewData.value)}`;
+                }
+                reviewItem.innerHTML = `
+                    <p><strong>Usuário: ${reviewData.userName || 'Anônimo'}</strong></p>
+                    <p><strong>${displayValue}</strong></p>
+                    <p>Feedback: ${reviewData.message}</p>
+                    <small>Enviado em: ${reviewData.timestamp}</small>
+                `;
+                reviewsListDiv.appendChild(reviewItem);
+            }
+        }
+
+        // Event Listeners para estrelas e checkbox
+        document.addEventListener('DOMContentLoaded', () => {
+            const starRatingDiv = document.getElementById('starRating');
+            starRatingDiv.addEventListener('mouseover', (e) => {
+                if (e.target.tagName === 'SPAN') {
+                    const value = parseInt(e.target.dataset.value);
+                    updateStarDisplay(value);
+                }
+            });
+
+            starRatingDiv.addEventListener('mouseout', () => {
+                updateStarDisplay(selectedRating);
+            });
+
+            starRatingDiv.addEventListener('click', (e) => {
+                if (e.target.tagName === 'SPAN') {
+                    selectedRating = parseInt(e.target.dataset.value);
+                    updateStarDisplay(selectedRating);
+                    document.getElementById('noReviewCheckbox').checked = false;
+                }
+            });
+
+            document.getElementById('noReviewCheckbox').addEventListener('change', function() {
+                if (this.checked) {
+                    selectedRating = 0;
+                    updateStarDisplay(0);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

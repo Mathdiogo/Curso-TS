@@ -1,0 +1,6 @@
+"use strict";
+// // 17 - Bigint
+// let b = bigint
+// b = 1234567890123456789012345678901234567890n; // BigInt literal
+// // TEM QUE MUDAR A VERSAO PARA "ES2020" NO tsconfig.json PARA FUNCIONAR
+// console.log(b); // 123456789012345678901234567890123456789
