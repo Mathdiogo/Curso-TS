@@ -1,15 +1,33 @@
 "use strict";
 // 5 - Keyof Type Operator
-function showCharName(obj, name) {
-    // Aqui, 'name' é do tipo 'C', que é uma união das chaves de 'Character'
-    return `O nome do personagem é: ${obj[name]}`;
+function showCharInfo(obj, key) {
+    // Aqui, 'key' é do tipo 'C', que é uma união das chaves de 'Character'
+    switch (key) {
+        case "name":
+            return `O nome do personagem é: ${obj[key]}.`;
+        case "age":
+            return `A idade do personagem é: ${obj[key]} anos.`;
+        case "hasDriverLicense":
+            // Usamos um operador ternário para uma frase mais descritiva
+            return obj[key] ? "O personagem TEM carteira de motorista." : "O personagem NÃO TEM carteira de motorista.";
+    }
 }
-const character = {
+const character1 = {
     name: "Matheus",
     age: 24,
     hasDriverLicense: true
 };
-console.log(showCharName(character, "name")); // O nome do personagem é: Matheus
+const character2 = {
+    name: "Rayssa",
+    age: 22,
+    hasDriverLicense: false
+};
+console.log(showCharInfo(character1, "name")); // O nome do personagem é: Matheus.
+console.log(showCharInfo(character1, "age")); // A idade do personagem é: 24 anos.
+console.log(showCharInfo(character1, "hasDriverLicense")); // O personagem TEM carteira de motorista.
+console.log(showCharInfo(character2, "name")); // O nome do personagem é: Rayssa.
+console.log(showCharInfo(character2, "age")); // A idade do personagem é: 22 anos.
+console.log(showCharInfo(character2, "hasDriverLicense")); // O personagem NÃO TEM carteira de motorista.
 // Quero que voce explique o que o código faz, e como ele funciona, e quais são os tipos de dados que ele usa.
 // O código define um tipo `Character` com três propriedades: `name`, `age` e `hasDriverLicense`.
 // Em seguida, usa o operador `keyof` para criar um tipo `C` que representa todas as chaves do tipo `Character`.
