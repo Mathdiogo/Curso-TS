@@ -7,15 +7,15 @@
 
 // Muito parecido com o keyof, mas ao invés de podermos usar qualquer chave do tipo, ele retorna o tipo da propriedade especificada, voce restringe o acesso.
 
-type Truck = {
+type Truckk = {
     km: number;
     kg: number;
     description: string;
 }
 
-type TruckKm = Truck['km']; // O tipo de TruckKm será number
+type TruckKm = Truckk['km']; // O tipo de TruckKm será number
 
-const newTruck: Truck = {
+const newTruck: Truckk = {
     km: 10000,
     kg: 5000,
     description: 'Caminhão novo para pouca carga'

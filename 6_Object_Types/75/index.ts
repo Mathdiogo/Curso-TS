@@ -10,17 +10,19 @@
 
 
 interface Car {
+    name: string
     brand: string
     model: string
     readonly wheels: number
 }
 
-const fusca: Car = {
+const fuscaaa: Car = {
+    name: 'Fusca',
     brand: 'Volkswagen',
     model: 'Fusca',
     wheels: 4
 }
 
-console.log(fusca)
+console.log(fuscaaa)
 
-//fusca.wheels = 5 // Isso vai gerar um erro, pois a propriedade wheels é readonly
+//fuscaaa.wheels = 5 // Isso vai gerar um erro, pois a propriedade wheels é readonly
