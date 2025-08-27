@@ -10,9 +10,9 @@ type Character = {
     hasDriverLicense: boolean;
 }
 
-type C = keyof Character; // C será do tipo "name" | "age" | "hasDriverLicense"
+type CC = keyof Character; // C será do tipo "name" | "age" | "hasDriverLicense"
 
-function showCharInfo(obj: Character, key: C) {
+function showCharInfo(obj: Character, key: CC) {
     // Aqui, 'key' é do tipo 'C', que é uma união das chaves de 'Character'
     switch (key) {
         case "name":

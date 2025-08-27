@@ -1,6 +1,6 @@
 // 3 -  Instanceof
 
-class User {
+class User1 {
     name
 
     constructor(name: string) {
@@ -8,14 +8,14 @@ class User {
     }
 }
 
-class SuperUser extends User {
+class SuperUser extends User1 {
 
     constructor(name: string) {
         super(name);
     }
 }
 
-const Jhon = new User("John");
+const Jhon = new User1("John");
 const Matheus = new SuperUser("Matheus");
 
 console.log(Jhon);
@@ -25,7 +25,7 @@ console.log(Matheus);
 function userGreeting(user: Object){
     if (user instanceof SuperUser) {
         console.log(`Olá ${user.name}, você é um super usuário, deseja ver os dados do sistema?`);
-    } else if (user instanceof User) {
+    } else if (user instanceof User1) {
         console.log(`Olá ${user.name}, você é um usuário comum, você não pode ver os dados do sistema.`);
     }
 }
