@@ -22,16 +22,16 @@ class item<T, U> {
 }
 
 
-const newItem = new item("caixa", "Surpresa");
+const newItemm = new item("caixa", "Surpresa");
 
-console.log(newItem)
+console.log(newItemm)
 
-console.log(newItem.showFirst); // o first é: caixa
-console.log(newItem.showSecond); // o second é : Surpresa
+console.log(newItemm.showFirst); // o first é: caixa
+console.log(newItemm.showSecond); // o second é : Surpresa
 
 //podemos verifica o tipo de cada propriedade
-console.log(typeof newItem.first); // string
-console.log(typeof newItem.second); // string
+console.log(typeof newItemm.first); // string
+console.log(typeof newItemm.second); // string
 
 const second  = new item<number, string>(1, "um");
 console.log(second);

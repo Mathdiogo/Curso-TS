@@ -1,8 +1,8 @@
 // 12 - Type Alias
 
-type ID = number | string;
+type Id = number | string;
 
-function showId(id: ID) {
+function showId(id: Id) {
     console.log(`O ID é: ${id}`);
 }
 

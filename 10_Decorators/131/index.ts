@@ -8,7 +8,16 @@
 
 // Isso nos permite acrescentar algo na criação de classes
 
+function classDecorator(constructor: Function) {
+    console.log("Classe criada:", constructor);
+    console.log(constructor.name);
+    if (constructor.name === "User") {
+        console.log("Um novo usuário foi criado!");
+    }
+}
 
+
+@classDecorator
 class User {
     name
 
@@ -16,3 +25,5 @@ class User {
         this.name = name
     }
 }
+
+const Matheus = new User("Matheus");

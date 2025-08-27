@@ -16,10 +16,10 @@ class SuperUser extends User1 {
 }
 
 const Jhon = new User1("John");
-const Matheus = new SuperUser("Matheus");
+const Matheuss = new SuperUser("Matheus");
 
 console.log(Jhon);
-console.log(Matheus);
+console.log(Matheuss);
 
 
 function userGreeting(user: Object){
@@ -31,4 +31,4 @@ function userGreeting(user: Object){
 }
 
 userGreeting(Jhon); 
-userGreeting(Matheus); 
+userGreeting(Matheuss); 
